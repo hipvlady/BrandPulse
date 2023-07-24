@@ -1,0 +1,22 @@
+{
+  "application": {
+    "topic": "grammarly"
+  },
+  "data_sources":{
+    "medium": [{
+      "publications_limit": 10,
+      "headers": {
+        "X-RapidAPI-Key" : "7d8d72f415msh60635945b54ec4bp13f5a5jsn07d964a66179",
+        "X-RapidAPI-Host": "medium2.p.rapidapi.com"
+      },
+      "search_url": "https://medium2.p.rapidapi.com/search/articles",
+      "article_info": "https://medium2.p.rapidapi.com/article/",
+      "content_url": "https://medium2.p.rapidapi.com/article/"
+    }]
+  },
+  "db": {
+    "path": "data/data.db",
+    "schema": ["id", "published_at", "tags", "url", "lang", "publication_id", "title", "voters", "nlp_score",
+                "inspected"]
+    }
+  }
