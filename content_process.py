@@ -111,7 +111,7 @@ if __name__ == '__main__':
                 data = get_content(config, item)  # Insert id to analyze
 
                 if data:
-                    logging.info(f"Content for item_id {item}: {data['content']}")
+                    logging.info(f"Content for item_id {item}")  # : {data['content']}"
 
                     score = get_score(data["content"])
                     score_str = str(score)

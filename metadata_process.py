@@ -157,6 +157,23 @@ def db_get_not_processed_id():
         return None
 
 
+def db_get_compared_values():
+    # Setting up db location variable
+    db_path = config["db"]["path"]
+
+    try:
+        with sqlite3.connect(db_path) as connection:
+            cursor = connection.cursor()
+            # Query data from database
+            cursor.execute("SELECT id, published_at, nlp_score FROM events WHERE nlp_score is not null")
+            fetch_data = cursor.fetchall()
+            return fetch_data
+
+    except sqlite3.Error as error:
+        logger.error(f"Failed to read data from sqlite table: {error}")
+        return None
+
+
 if __name__ == "__main__":
     logger.info("Running metadata process module ...")
     id_to_query = db_get_not_processed_id()

@@ -1,11 +1,15 @@
 import logging
-from visual import custom_alert
+from visual import custom_alert, display_plot
 from metadata_process import db_read_metadata_id
 from services import get_config, get_current_time
 from content_process import get_content, get_score, db_update_score
 
-# Configure logging
-logging.basicConfig(level=logging.INFO, format="%(levelname)s - %(message)s")
+# Configure logging to a file
+logging.basicConfig(filename='data/app.log',
+                    filemode='w',
+                    level=logging.INFO,
+                    format="%(asctime)s - %(levelname)s - %(message)s")
+
 
 title = "Catching up on Grammarly brand!"
 message = (
@@ -26,39 +30,36 @@ if __name__ == '__main__':
 
     # Initialize visual elements
     custom_alert(title, message)
+    display_plot()
 
     # Getting ids for the NLP analysis
     dump = db_read_metadata_id()
     id_to_analyze = [i for items in dump for i in items]
     logging.info(f"IDs to analyze: {id_to_analyze}")
 
-    print("")
-
-    to_do = 1
-    number_of_calls = 1
+    to_do = 0
+    api_limit = 15
+    list_to_call = id_to_analyze[:api_limit]
 
     # Getting application's configurations
     config = get_config()
 
     if to_do == 1:
-        for item in id_to_analyze:
-            for i in range(number_of_calls):
-                data = get_content(config, item)  # Insert id to analyze
+        for item in list_to_call:
+            data = get_content(config, item)  # Insert id to analyze
 
-                if data:
-                    logging.info(f"Content for item_id {item}: {data['content']}")
+            if data:
+                logging.info(f"Content for item_id {item}: {data['content']}")
 
-                    score = get_score(data["content"])
-                    score_str = str(score)
-                    logging.info(f"Score for item_id {item}: {score_str}")
+                score = get_score(data["content"])
+                score_str = str(score)
+                logging.info(f"Score for item_id {item}: {score_str}")
 
-                    time = str(get_current_time())
-                    db_update_score(score, time, item)
-
-                else:
-                    logging.warning(f"No content found for item_id: {item}")
+                time = str(get_current_time())
+                db_update_score(score_str, time, item)
 
             else:
-                break
-    else:
-        print("PyCharm")
+                logging.warning(f"No content found for item_id: {item}")
+
+        else:
+            print("PyCharm")
