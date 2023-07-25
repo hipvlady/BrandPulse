@@ -6,7 +6,7 @@
     "medium": [{
       "publications_limit": 10,
       "headers": {
-        "X-RapidAPI-Key" : "7d8d72f415msh60635945b54ec4bp13f5a5jsn07d964a66179",
+        "X-RapidAPI-Key" : "",
         "X-RapidAPI-Host": "medium2.p.rapidapi.com"
       },
       "search_url": "https://medium2.p.rapidapi.com/search/articles",
